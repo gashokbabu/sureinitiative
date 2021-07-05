@@ -1,0 +1,115 @@
+suretrust project documentatio
+
+for signup request
+
+http://127.0.0.1:8002/users/   --post request
+in Content-Type:application/json
+in body section
+{
+    "email":"youremail@email.com",
+    "password":"django@999",
+    "name":"your name"
+    "gender":"male or female",
+    "phone":your phone number  
+}
+this will return the user details if email already exists it return user with eamil alredy exists
+
+for login request
+http://127.0.0.1:8002/users/get-token/  --post request
+ in body section
+ {
+     "email":"youremail@email.com",
+     "password":"your password"
+     "login_as":"teacher or student"
+ }
+ if the user is loging as student then it will return a token and student registration number regno is used to uniquely identify the students
+
+ if the user is login_as teacher we will a token.this token has the special permissions to edit the courses,posts etc
+ but the student token is not able to do this
+ * save the token details in cookies or local storage
+
+
+ For teacher pannel
+ If we want to list all the courses he/she dealing then
+ http://127.0.0.1:8000/courses/course/  --get request and pass the teacher token in the url
+
+ If a teacher want any inforamtion related to a particualar course
+ http://127.0.0.1:8000/courses/course/{course_id}   --get requests with teacher token
+ this will return all the information related to the course 
+
+ If a teacher wants to update any course
+ http://127.0.0.1:8000/courses/course/{course_id}  --put request with teacher token
+
+ If a teacher want to delete any course
+http://127.0.0.1:8000/courses/course/{course_id}   --delete request with teacher token
+
+
+
+
+ If you want to know all the batches that he is dealing with then 
+ http://127.0.0.1:8000/courses/batch/   --get request  and pass the teacher token allong with that
+ headers section
+ {
+    course-id=course_id
+ }
+ eg:
+ {
+    "course-id":2
+ }
+
+ If you want to know about a particular batch 
+ http://127.0.0.1:8000/courses/batch/{batch_id}/  --get request with the teacher token
+
+ If you want to update a particular batch 
+ http://127.0.0.1:8000/courses/batch/{batch_id}/  --put request with the teacher token
+
+ if a techer want to delete any batch 
+ http://127.0.0.1:8000/courses/batch/{batch_id}/  --delete request with a teacher token
+
+ if a teacher wants to know all the posts of a peticular batch 
+ http://127.0.0.1:8000/courses/posts/             --get request with teachers token
+ in header section pass 
+ {
+    "batch-id":id of the batch
+ }
+ --this returns all the post of that batch
+
+ if a teacher wants to post a new post
+ http://127.0.0.1:8000/courses/posts/             --post request with teacher token
+ body data is
+ {
+    "title":"your title",
+    "type":"assignment or meterial or announcement"
+    "content":"your content",
+    "file":"optional",
+    "batch":batch_id
+ } 
+
+ if he want to update any post                    
+ http://127.0.0.1:8000/courses/posts/{post_id}     --put request with teacher token
+  body updated data data
+  {
+     "title":"updated your title",
+     "content":"updated your content",
+     "file":"updated optional",
+     "batch":batch_id
+ }
+ to delete any post 
+  http://127.0.0.1:8000/courses/posts/{post_id}    --delete request with teachers token
+
+
+
+
+For users
+ if any student want to add to any course
+ http://127.0.0.1:8000/users/add-to-course/{course_name}         --post request with students auth token
+ if he is added successsfully it return a success message in json format
+ else error message with something went wrong
+
+ if a user wants to see all the batches he registered
+ http://127.0.0.1:8000/users/your-batches/    --get request with student auth token
+
+ if a user wants to see all the posts of a perticular batch   
+http://127.0.0.1:8000/users/batch-posts/{batch_id}    --get request with student auth token
+ return all the posts of a particular batch
+
